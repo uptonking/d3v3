@@ -4,19 +4,57 @@
     <meta charset="utf-8">
     <title>hello-d3</title>
     <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+        div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px; /* 后面会覆盖这个高度 */
+            background-color: lightgray;
+        }
+    </style>
 </head>
 <body>
 
 <div id="app">
-    hello
+
 </div>
 
 <script type="text/javascript">
     !function () {
-        console.log('loaded');
+        // console.log('loaded');
+        var dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
 
-        d3.select('#app').append('p').text('new text');
+        // d3.select('#app').append('div').selectAll("div")
+        //     .data(dataset)
+        //     .enter()
+        //     .append("div")
+        //     .attr('class', 'bar')
+        //     .style('height', function (d) {
+        //         return d * 5 + "px";
+        //     });
 
+        var dlen = dataset.length;
+        var w = 1080, h = 800;
+        var svg = d3.select('#app').append('svg').attr('width', w).attr('height', h);
+
+        svg.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+            .attr('x', function (d, i) {
+                return i * (w / dlen);
+
+            })
+            .attr('y', function (d) {
+                return h - d;
+            })
+            .attr('width', w / dlen - 8)
+            .attr('height', function (d) {
+                return d * 80;
+            })
+            .attr("ﬁll", function (d) {
+                return "rgb(0, 0, " + (d * 10) + ")";
+            });
     }();
 </script>
 </body>
