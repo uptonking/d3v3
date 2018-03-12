@@ -9,7 +9,10 @@ Want to learn more? [See the wiki.](https://github.com/mbostock/d3/wiki)
 For examples, [see the gallery](https://github.com/mbostock/d3/wiki/Gallery) and [mbostock’s bl.ocks](http://bl.ocks.org/mbostock).
 
 ## develop
-npm run  prepublish
+
+`npm run  prepublish`
+
+build with node 6.12.0
 
 ## Good News, Everyone!
 
