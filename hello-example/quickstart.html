@@ -7,8 +7,9 @@
     <style type="text/css">
         div.bar {
             display: inline-block;
-            width: 20px;
-            height: 75px; /* 后面会覆盖这个高度 */
+            width: 24px;
+            height: 80px; /* 后面会覆盖这个高度 */
+            margin-right: 4px;
             background-color: lightgray;
         }
     </style>
@@ -22,8 +23,11 @@
 <script type="text/javascript">
     !function () {
         // console.log('loaded');
-        var dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
 
+        var dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
+        var dlen = dataset.length;
+
+        ///使用div绘制条形图
         // d3.select('#app').append('div').selectAll("div")
         //     .data(dataset)
         //     .enter()
@@ -33,28 +37,70 @@
         //         return d * 5 + "px";
         //     });
 
-        var dlen = dataset.length;
-        var w = 1080, h = 800;
-        var svg = d3.select('#app').append('svg').attr('width', w).attr('height', h);
+        const w = 720, h = 480;
+        const svg = d3.select('#app').append('svg').attr('width', w).attr('height', h);
+        const barPadding = 4;
+
+
+        // svg.selectAll('rect')
+        //     .data(dataset)
+        //     .enter()
+        //     .append('rect')
+        //     ///设置各元素起点x
+        //     .attr('x', function (d, i) {
+        //         return i * (w / dlen);
+        //
+        //     })
+        //     ///设置各元素起点y
+        //     .attr('y', function (d) {
+        //         return h - d * 8;
+        //     })
+        //     ///设置各元素宽度
+        //     .attr('width', w / dlen - barPadding)
+        //     ///设置各元素高度
+        //     .attr('height', function (d) {
+        //         return d * 8;
+        //     })
+        //     .attr('fill', 'orange');
 
         svg.selectAll('rect')
             .data(dataset)
             .enter()
             .append('rect')
-            .attr('x', function (d, i) {
-                return i * (w / dlen);
-
-            })
-            .attr('y', function (d) {
-                return h - d;
-            })
-            .attr('width', w / dlen - 8)
-            .attr('height', function (d) {
-                return d * 80;
-            })
-            .attr("ﬁll", function (d) {
-                return "rgb(0, 0, " + (d * 10) + ")";
+            .attr({
+                x: function (d, i) {
+                    return i * (w / dataset.length);
+                },
+                y: function (d) {
+                    return h - (d * 4);
+                },
+                width: w / dataset.length - barPadding,
+                height: function (d) {
+                    return d * 4;
+                },
+                fill: function (d) {
+                    return "rgb(0,  " + (d * 10) + ",0)";
+                }
             });
+
+        svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .text(function (d) {
+                return d;
+            })
+            .attr({
+                x: function (d, i) {
+                    return i * (w / dataset.length) + 4;
+                },
+                y: function (d) {
+                    return h - (d * 4) -12;
+                },
+                fill: 'red'
+            })
+
+
     }();
 </script>
 </body>
