@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>hello-d3-bar-chart</title>
+    <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+        div.bar {
+            display: inline-block;
+            width: 24px;
+            height: 80px; /* 后面会覆盖这个高度 */
+            margin-right: 4px;
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+<h3>动态条形图</h3>
+
+<div id="app">
+
+</div>
+
+<script type="text/javascript">
+    !function () {
+        // console.log('loaded');
+
+        var dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
+        var dlen = dataset.length;
+
+
+        const w = 720, h = 480, barPadding = 4, paading = 12;
+        const svg = d3.select('#app').append('svg').attr('width', w).attr('height', h);
+
+        const xs = d3.scale.ordinal()
+        ///序数比例尺的domain是一组值
+            .domain(d3.range(dlen))
+            //序数比例尺的range自动分档，设置间距百分比
+            .rangeRoundBands([0, w], 0.4);
+
+        const ys = d3.scale.linear()
+            .domain([0, d3.max(dataset, function (d) {
+                return d;
+            })])
+            .range([0, h * 0.75]);
+
+        svg.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+            .transition()
+            .duration(1000)
+            .ease('bounce')
+            .attr('x', function (d, i) {
+                return xs(i);
+            })
+            .attr('y', function (d) {
+                return h - ys(d);
+            })
+            .attr('width', xs.rangeBand())
+            .attr('height', function (d) {
+                return ys(d);
+            })
+
+        d3.select('h3').on('click', function () {
+
+            // 1.更新数据值
+            dataset = [];
+            for (let i = 0; i < dlen; i++) {
+                dataset.push(Math.floor(Math.random() * 100));
+            }
+
+            //更新比例尺要放在更新元素之前，否则后面使用的旧的ys()
+            ys.domain([0, d3.max(dataset)]);
+
+            svg.selectAll('rect')
+
+            // 2.重新绑定
+                .data(dataset)
+                .transition()
+                .delay(function (d, i) {
+                    return i / dlen * 400;
+                })
+                .duration(500)
+                .ease('bounce')
+
+                // 3.更新视觉元素，只需更新变动部分
+                .attr('y', function (d) {
+                    return h - ys(d);
+                })
+                .attr('height', function (d) {
+                    return ys(d);
+                });
+
+
+        })
+    }();
+</script>
+</body>
+</html>
