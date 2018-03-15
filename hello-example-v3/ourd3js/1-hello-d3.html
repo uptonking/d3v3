@@ -1,0 +1,50 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My First D3 Program</title>
+
+    <style>
+        .mycircle {
+            fill: green;
+            stroke: black;
+            stroke-width: 3px;
+        }
+
+        .myrect {
+            fill: yellow;
+            stroke: blue;
+            stroke-width: 6px;
+        }
+    </style>
+
+</head>
+<body>
+
+<script src="../../d3.js" charset="utf-8"></script>
+<script>
+
+    var body = d3.select("body");
+
+    var svg = body.append("svg")
+        .attr("width", 400)
+        .attr("height", 400);
+
+    svg.append("circle")
+        .attr("cx", 100)
+        .attr("cy", 200)
+        .attr("r", 80)
+        .attr("class", "mycircle");
+
+    svg.append("rect")
+        .attr("x", 200)
+        .attr("y", 120)
+        .attr("width", 150)
+        .attr("height", 200)
+        .attr("class", "myrect");
+
+
+</script>
+
+
+</body>
+</html>

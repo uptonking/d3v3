@@ -2,4 +2,5 @@
 
 ## todo
 
-- stack堆叠图
+- [ ] stack堆叠图练习修改方向 
+- [ ] todo2

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>BDP-销售业绩报表</title>
+    <link href="../01-nvd3-1.8.6/build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../d3.js"></script>
+    <script type="text/javascript" src="../01-nvd3-1.8.6/build/nv.d3.js"></script>
+
+    <style type="text/css">
+
+        .cSalesAmountByCategory {
+            width: 640px !important;
+            height: 320px !important;
+        }
+
+        .nv-x line {
+            opacity: 0;
+        }
+
+        .nv-y line {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+<h3>各类商品销量占比</h3>
+<!--各类商品销量占比 饼状图-->
+<svg id="salesVolumeByCategory" class="cSalesAmountByCategory">
+
+</svg>
+
+
+<h3>各类商品销售额占比</h3>
+<!--各类商品销售额占比 环形图-->
+<svg id="salesAmountByCategory" class="cSalesAmountByCategory">
+
+</svg>
+
+
+<h3>每日总销售额</h3>
+<!--每日的销售总额 曲线图-->
+<div id="salesAmountPerDay" class="cSalesAmountByCategory">
+    <svg>
+
+    </svg>
+</div>
+
+
+<h3>销售额Top10的业务员</h3>
+<!--销售额前n的销售人员 柱形图-->
+<div id="topSeller" class="cSalesAmountByCategory">
+    <svg>
+
+    </svg>
+</div>
+
+
+<script type="text/javascript">
+    !function () {
+        console.log('loaded');
+
+        let width = 480, height = 320;
+
+        let d4salesVolumeByCategory = [];
+        let d4salesAmountByCategory = [];
+        let d4salesAmountPerDay = [];
+        let d4topSeller = [];
+
+        d3.csv('../hellores/bdp/d3-sales-volumn-by-product-cat.csv', function (error, data) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+            //console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                //console.log(data[i]['存货分类']);
+                d4salesVolumeByCategory.push({
+                    k: data[i]['存货分类'],
+                    v: data[i]['总销量']
+                });
+            }
+            renderChartSalesVolumnByProductCat();
+        });
+
+        d3.csv('../hellores/bdp/d3-sales-amount-by-product-cat.csv', function (error, data) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+            //console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                //console.log(data[i]['存货分类']);
+                d4salesAmountByCategory.push({
+                    k: data[i]['存货分类'],
+                    v: data[i]['总订单金额']
+                });
+            }
+            renderChartSalesAmountByProductCat();
+        });
+
+        d3.csv('../hellores/bdp/d3-sales-amount-by-daily-30.csv', function (error, data) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+            // console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                //console.log(data[i]['存货分类']);
+                d4salesAmountPerDay.push({
+                    // x: data[i]['单据日期'],
+                    x: i,
+                    y: data[i]['总订单金额']
+                });
+            }
+            renderChartSalesAmountPerDay();
+        });
+
+        d3.csv('../hellores/bdp/d3-sales-amount-by-salesman.csv', function (error, data) {
+            if (error) {
+                console.log(error);
+                return;
+            }
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                //console.log(data[i]['存货分类']);
+                d4topSeller.push({
+                    k: data[i]['业务员名称'],
+                    v: data[i]['总订单金额']
+                });
+            }
+            renderChartTopSeller();
+        });
+
+        const renderChartSalesVolumnByProductCat = function () {
+
+            nv.addGraph(function () {
+
+                const chart = nv.models.pieChart()
+                    .x(function (d) {
+                        return d.k
+                    })
+                    .y(function (d) {
+                        return d.v
+                    })
+                    .width(width)
+                    .height(height)
+                    .labelType(function (d, i, values) {
+                        // return values.key + ':' + values.value;
+                        return '';
+                    })
+                // .showTooltipPercent(false);
+
+                d3.select("#salesVolumeByCategory")
+                    .datum(d4salesVolumeByCategory)
+                    .attr('width', width)
+                    .attr('height', height)
+                    .call(chart);
+
+                return chart;
+            });
+        };
+
+        const renderChartSalesAmountByProductCat = function () {
+            nv.addGraph(function () {
+                const chart = nv.models.pie()
+                    .x(function (d) {
+                        return d.k;
+                    })
+                    .y(function (d) {
+                        return d.v;
+                    })
+                    .width(width)
+                    .height(height)
+                    // .labelType('percent')
+                    // .valueFormat(d3.format('%'))
+                    .donut(true)
+                    .labelsOutside(true)
+                    .labelType(function (d, i, values) {
+                        // console.log('====1 ', i)
+                        // console.log('====2 ', d)
+                        // console.log('====3 ', values)
+                        return values.key + ':' + d3.format('%')(values.percent);
+                    })
+                ;
+
+                d3.select("#salesAmountByCategory")
+                    .datum([d4salesAmountByCategory])
+                    .attr('width', width)
+                    .attr('height', height)
+                    .call(chart);
+
+                return chart;
+            });
+        };
+
+        const renderChartSalesAmountPerDay = function () {
+
+            const d4lineChart = function () {
+
+                // let sin = [];
+                // for (let i = 0; i < 100; i++) {
+                //     sin.push({x: i, y: Math.sin(i / 10)});
+                // }
+
+                return [
+                    {
+                        values: d4salesAmountPerDay,
+                        key: "",
+                        color: '#00c5ff'
+                    }
+                ];
+            }
+
+            nv.addGraph(function () {
+
+                let chart = nv.models.lineChart();
+
+                let width = 600;
+                let height = 300;
+                let zoom = 1;
+
+                chart.useInteractiveGuideline(false);
+                chart.xAxis
+                    .tickFormat(d3.format(',r'));
+
+                chart.lines.dispatch.on("elementClick", function (evt) {
+                    console.log(evt);
+                });
+
+                chart.yAxis
+                    .axisLabel('日销售额 (元)')
+                    .tickFormat(d3.format(',.2f'));
+
+                d3.select('#salesAmountPerDay svg')
+                    .attr('perserveAspectRatio', 'xMinYMid')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .datum(d4lineChart());
+
+                setChartViewBox();
+
+
+                function setChartViewBox() {
+                    let w = width * zoom,
+                        h = height * zoom;
+
+                    chart.width(w).height(h);
+
+                    d3.select('#salesAmountPerDay svg')
+                        .attr('viewBox', '0 0 ' + w + ' ' + h)
+                        .transition().duration(500)
+                        .call(chart);
+                }
+
+                function zoomOut() {
+                    zoom += .25;
+                    setChartViewBox();
+                }
+
+                function zoomIn() {
+                    if (zoom <= .5) return;
+                    zoom -= .25;
+                    setChartViewBox();
+                }
+
+                return chart;
+            });
+
+
+        };
+
+        const renderChartTopSeller = function () {
+
+            let d4barChart = [{
+                key: '日销售额',
+                values: d4topSeller
+            }];
+
+            nv.addGraph(function () {
+                var chart = nv.models.discreteBarChart()
+                    .x(function (d) {
+                        return d.k
+                    })
+                    .y(function (d) {
+                        return d.v
+                    })
+                    .staggerLabels(true)
+                    //.staggerLabels(historicalBarChart[0].values.length > 8)
+                    .showValues(true)
+                    .duration(250)
+                ;
+
+                d3.select('#topSeller svg')
+                    .datum(d4barChart)
+                    .call(chart);
+
+                nv.utils.windowResize(chart.update);
+                return chart;
+            });
+
+        };
+
+    }();
+</script>
+</body>
+</html>

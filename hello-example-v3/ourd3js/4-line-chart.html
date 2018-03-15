@@ -1,0 +1,108 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>第四课：用生成器制作折线图</title>
+
+	<style>
+
+	.axis path,
+	.axis line{
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+
+	.axis text {
+		font-family: sans-serif;
+		font-size: 11px;
+	}
+
+	.MyPath {
+		fill: none;
+		stroke: black;
+		stroke-width: 3px;
+	}
+
+	</style>
+
+</head>
+<body>
+
+<script src="../../d3.js" charset="utf-8"></script>
+<script>
+
+var body = d3.select("body");
+
+var width = 400;
+var height = 400;
+
+var svg = body.append("svg")
+			.attr("width", 400)
+			.attr("height", 400);
+
+// 1. 读取文件
+
+d3.json("example.json", function(error, jsondata){
+
+	if(error)
+		console.log(error);
+
+	console.log(jsondata);
+
+	var xmax = d3.max(jsondata.data, function(d){
+		return d.x;
+	});
+
+	var ymax = d3.max(jsondata.data, function(d){
+		return d.y;
+	});
+
+	var xScale = d3.scale.linear()
+					.domain([0, xmax])
+					.range([0, 300]);
+
+	var yScale = d3.scale.linear()
+					.domain([0, ymax])
+					.range([250, 0]);
+
+	var xAxis = d3.svg.axis()
+				.scale(xScale)
+				.orient("bottom");
+
+	var gxAxis = svg.append("g")
+					.attr("class","axis")
+					.attr("transform","translate(30,350)")
+					.call(xAxis);
+
+	var yAxis = d3.svg.axis()
+					.scale(yScale)
+					.orient("left");
+
+	var gyAxis = svg.append("g")
+					.attr("class","axis")
+					.attr("transform","translate(30,100)")
+					.call(yAxis);
+
+	// 2. 线段生成器
+	var line = d3.svg.line()
+			.x( function(d){ return xScale(d.x); } )
+			.y( function(d){ return yScale(d.y); } )
+			.interpolate("cardinal");
+
+	// 3. 折线图
+	svg.append("path")
+		.attr("class","MyPath")
+		.attr("d", line(jsondata.data) )
+		.attr("transform","translate(30,100)");
+
+});
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

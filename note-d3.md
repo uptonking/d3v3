@@ -2,11 +2,21 @@
 
 ## summary
 
+
+
+- 约定
+    - tooltip 鼠标提示
+    - label 数据标注
+- data vs datum
+    - data 将一个数组的各项分别绑定到各元素上
+    - datum 将数组本身绑定到各元素上
+
 - 核心api
     - data()
     - transition()
     - enter()
-    - 
+    - exit()
+    
 - attr()用于设置DOM属性，style()用于设置css样式  
     - 添加样式1 selection.attr('class','title')  
     - 添加样式2 selection.style('width',240px)
@@ -30,8 +40,8 @@
     - ease() 
     - delay() ms
 - 数据更新
-    - 数量不变，值变化
-    - 数量变少
-    - 数量变多
-- 剪切路径
+    - 数量不变，值变化 enter()
+    - 数量变多 enter()
+    - 数量变少 exit()
+- 剪切路径clip-path
 会将svg边界上和边界外的元素超出svg矩形的部分隐藏

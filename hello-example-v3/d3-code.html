@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>hello-d3</title>
+    <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <p>Lion</p>
+    <p>Tiger</p>
+    <p>Leopard</p>
+
+</div>
+
+<script type="text/javascript">
+    !function () {
+        console.log('loaded');
+
+//定义数组
+        var dataset = [3, 6, 9];
+
+//选择body中的p元素
+        var p = d3.select("body").selectAll("p");
+
+//绑定数据到选择集
+//         var update = p.data(dataset);
+        var update = p.datum(dataset);
+
+//输出绑定的结果
+        console.log(update);
+
+    }();
+</script>
+</body>
+</html>
