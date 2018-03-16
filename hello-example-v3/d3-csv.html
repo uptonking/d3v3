@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+    <!--<script type="text/javascript" src="../d3.js"></script>-->
+    <!--<script type="text/javascript" src="http://d3js.org/d3.v3.js"> </script>-->
+</head>
+<body>
+
+<script type="text/javascript">
+    var datas;
+    // load data from a CSV file
+    d3.csv('data/line-simple-data.csv',
+
+        //读取数据时的数据预处理，string转number
+        // function (d) {
+        //     return {
+        //         key: d.date,
+        //         value: +d.close
+        //     };
+        // },
+
+        function (d) {
+            // code to generate chart goes here
+            // datas = dataset;
+            console.log(d);
+        });
+</script>
+</body>
+</html>

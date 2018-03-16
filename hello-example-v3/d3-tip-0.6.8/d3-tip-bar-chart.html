@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>d3 tooltip bar chart</title>
+<style>
+    body {
+        font-size: 10px;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #aaa;
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+        /*display: none;*/
+    }
+
+    .y.axis path {
+        display: none;
+    }
+
+    .bar {
+        fill: orange;
+    }
+
+    .bar:hover {
+        fill: #aaa;
+    }
+
+    .d3-tip {
+        /*设置行高*/
+        line-height: 20px;
+        /*font-weight: bold;*/
+        /*设置内边距，基本决定尺寸*/
+        padding: 10px 10px 6px 10px;
+        background: rgba(0, 0, 0, 0.65);
+        color: #fff;
+        border-radius: 4px;
+        white-space: nowrap;
+        transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), left 0.4s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        font-size: 12px;
+    }
+
+    /* Creates a small triangle extender for the tooltip */
+    /*.d3-tip:after {*/
+    /*box-sizing: border-box;*/
+    /*display: inline;*/
+    /*font-size: 10px;*/
+    /*width: 100%;*/
+    /*line-height: 1;*/
+    /*color: rgba(0, 0, 0, 0.8);*/
+    /*content: "\25BC";*/
+    /*position: absolute;*/
+    /*text-align: center;*/
+    /*}*/
+
+    /*!* Style northward tooltips differently *!*/
+    /*.d3-tip.n:after {*/
+    /*margin: -1px 0 0 0;*/
+    /*top: 100%;*/
+    /*left: 0;*/
+    /*}*/
+</style>
+<body>
+
+<!-- ====g2的tooltip样式==== -->
+<!--<div class="g2-tooltip"-->
+<!--style="position: absolute; visibility: visible; white-space: nowrap; z-index: 8; transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), left 0.4s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1); background-color: rgba(0, 0, 0, 0.65); border-radius: 4px; color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Helvetica, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, SimSun, sans-serif; line-height: 20px; padding: 10px 10px 6px; left: 80px; top: 20px;">-->
+<!--<div class="g2-tooltip-title" style="margin-bottom: 4px;">Apr</div>-->
+<!--<ul class="g2-tooltip-list" style="margin: 0px; list-style-type: none; padding: 0px;">-->
+<!--<li data-index="0" style="margin-bottom: 4px;"><span-->
+<!--style="background-color: rgb(24, 144, 255); width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgb(255, 255, 255); display: inline-block; margin-right: 8px;"-->
+<!--class="g2-tooltip-marker"></span>Tokyo: 14.5-->
+<!--</li>-->
+<!--<li data-index="1" style="margin-bottom: 4px;"><span-->
+<!--style="background-color: rgb(47, 194, 91); width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgb(255, 255, 255); display: inline-block; margin-right: 8px;"-->
+<!--class="g2-tooltip-marker"></span>London: 8.5-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+
+<script src="../../d3.js"></script>
+<!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+<!--<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>-->
+<script src="./index.js"></script>
+<script>
+
+    var margin = {top: 42, right: 20, bottom: 30, left: 56},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var formatPercent = d3.format(".0%");
+
+    // ====定义x、y的比例尺、坐标轴
+    var xs = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .2);
+
+    var ys = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(xs)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(ys)
+        .orient("left")
+        .tickFormat(formatPercent);
+
+    //创建tip
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        // 控制偏移量 第1个为正越下方 第2个为正越右边
+        .offset([-8, 0])
+        .html(function (d) {
+            let ftip = {
+                title: 'frequency',
+                list: [
+                    {
+                        key: d.letter,
+                        value: d.frequency,
+                    }
+                ]
+            };
+            // return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+            return generateTooltipHtml(ftip);
+        });
+
+    // 初始化svg g
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    svg.call(tip);
+
+    d3.tsv("data.tsv",
+        function (d) {
+            d.frequency = +d.frequency;
+            return d;
+        },
+        function (error, data) {
+
+            xs.domain(data.map(function (d) {
+                return d.letter;
+            }));
+            ys.domain([0, d3.max(data, function (d) {
+                return d.frequency;
+            })]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Frequency");
+
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) {
+                    return xs(d.letter);
+                })
+                .attr("width", xs.rangeBand())
+                .attr("y", function (d) {
+                    return ys(d.frequency);
+                })
+                .attr("height", function (d) {
+                    return height - ys(d.frequency);
+                })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide)
+
+        });
+
+
+    /**
+     * 生成提示的内容
+     * 基本结构分2部分，title可选，rgba可选
+     * {
+                title: '1st-line-title',
+                list: [
+                    {
+                        key: 'name',
+                        value: 'value',
+                        rgba: 'rgba(24, 144, 255,1)'
+                    }
+                ]
+            }
+     */
+    function generateTooltipHtml(tip) {
+        let html = '';
+        if (tip.title !== undefined || tip.title.replace(/(^\s*)|(\s*$)/g, '') !== '') {
+            html += '<div style=\"margin-bottom: 4px; \"><span style=\"color:white; \">' + tip.title + '</span></div>';
+        }
+        if (tip.list !== undefined || tip.list.length !== 0) {
+            for (let i = 0; i < tip.list.length; i++) {
+                html += '<div style=\"margin-bottom: 4px;\"><span style=\"background-color: ' + (tip.list[i].rgba === undefined ? 'rgba(0,0,0,0)' : tip.list[i].rgba) + ';width: 7px; height: 7px; border-radius: 50%;  display: inline-block; margin-right: 8px; \"></span><span>' + tip.list[i].key + ' : ' + tip.list[i].value + '</span></div>';
+            }
+        }
+        return html;
+    }
+
+
+</script>

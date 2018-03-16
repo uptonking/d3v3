@@ -1,0 +1,55 @@
+
+.ant-red {
+    color: #F04864;
+}
+
+.ant-green {
+    /*rgb(47,194,91)*/
+    color: #2FC25B;
+}
+
+.ant-blue {
+    /*rgb(24,144,255)*/
+    color: #1890FF;
+}
+
+.ant-yellow {
+    color: #FACC14;
+}
+
+.ant-pink {
+    color: #FA7D92;
+}
+
+.ant-green-light {
+    color: #13c2c2;
+}
+
+.ant-purple {
+    color: #8543E0;
+}
+
+.ant-orange {
+    color: #E6965C;
+}
+
+.chrome-red {
+    /*219, 50, 54*/
+    color: #db3236;
+}
+
+.chrome-green {
+    /*60, 186, 84*/
+    color: #3cba54;
+}
+
+.chrome-blue {
+    /*72, 133, 237*/
+    color: #4885ed;
+}
+
+.chrome-yellow {
+    /*244, 194, 13*/
+    color: #f4c20d;
+}
+

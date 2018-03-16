@@ -9,7 +9,8 @@
     - label 数据标注
 - data vs datum
     - data 将一个数组的各项分别绑定到各元素上
-    - datum 将数组本身绑定到各元素上
+    - datum 将数组本身绑定到各元素上  
+自定义数据绑定？
 
 - 核心api
     - data()
@@ -30,18 +31,19 @@
     .append('circle')
     .attr()
 ```
-- Mike Bostock的外边距约定 http://bl.ocks.org/mbostock/3019563
-- 比例尺3部分
-    - 轴线
-    - 刻度线
-    - 文本标签
-- transtion()默认插值间隔是250ms
-    - duration() ms
-    - ease() 
-    - delay() ms
 - 数据更新
     - 数量不变，值变化 enter()
     - 数量变多 enter()
     - 数量变少 exit()
-- 剪切路径clip-path
+- transtion()默认插值间隔是250ms
+    - duration() ms
+    - ease() 
+    - delay() ms
+- 坐标轴3部分
+    - 轴线
+    - 刻度线
+    - 文本标签  
+注意：坐标轴要与比例尺关联    
+- Mike Bostock的外边距约定 http://bl.ocks.org/mbostock/3019563
+- 剪切路径clip-path  
 会将svg边界上和边界外的元素超出svg矩形的部分隐藏
