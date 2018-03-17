@@ -3,6 +3,16 @@
 
 _site
 node_modules/
-.DS_Store
 d3.zip
+
+.DS_Store
+*.log
+umd
+lib
+es6
+coverage
+npm-debug.log
+*.orig
+.justconf/
+build/
 
