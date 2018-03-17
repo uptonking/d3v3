@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"/>
+<title>svg test</title>
+<head>
+    <style type="text/css">
+        svg {
+            stroke: black,
+            fill:blue
+        }
+    </style>
+</head>
+
+<body>
+<svg id="inline" >
+
+</svg>
+<script>
+
+    console.log('===1')
+    var s1 = document.getElementById('inline');
+    console.log('svg', s1);
+    console.log('point', s1.createSVGPoint());
+
+
+</script>
+</body>
+
+
+</html>
