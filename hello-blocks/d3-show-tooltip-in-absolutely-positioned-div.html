@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.9.0"></script>-->
+    <!--d3 is not defined 特殊数学符号无法解析Invalid or unexpected token-->
+    <!--<script type="text/javascript" src="../d3.js"></script>-->
+    <script type="text/javascript" src="../d3.min.js"></script>
+    <style type="text/css">
+        body {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body onResize="window.location=window.location;">
+<!--<script type="text/javascript" src="treemap-svg.js"></script>-->
+<script type="text/javascript">
+    var w = window.innerWidth - 25,
+        h = window.innerHeight - 25,
+        color = d3.scale.category20c();
+
+    w = 2000;
+    h = 400;
+
+    var treemap = d3.layout.treemap()
+        .padding(0)
+        .size([w, h])
+        .sort(function (a, b) {
+            return a.size - b.size;
+        })
+        .value(function (d) {
+            return d.size;
+        });
+
+    // Tool tip implementatoin
+
+    var tooltip = d3.select("body")
+        .append("div")
+        //.style("position", "absolute")
+        .style("position", "absolute")
+        .style("height", "60px")
+        .style("width", "140px")
+        .style("background-color", "white")
+        .style("z-index", "100")
+        .style("visibility", "hidden")
+        .text("a simple tooltip");
+
+    // http://stackoverflow.com/questions/288699/get-the-position-of-a-div-span-tag
+    // dirty hack/fixes for FireFox (code barfed on FF with NaN/NaN)
+    function getNodePos(el) {
+        var body = d3.select('body').node();
+
+        for (var lx = 0, ly = 0;
+             el != null && el != body;
+             lx += (el.offsetLeft || el.clientLeft), ly += (el.offsetTop || el.clientTop), el = (el.offsetParent || el.parentNode))
+            ;
+        return {x: lx, y: ly};
+    }
+
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h)
+        .append("g")
+        .attr("transform", "translate(-.5,-.5)");
+
+
+    d3.json("data/flare.json", function (json) {
+        var cell = svg.data([json]).selectAll("g")
+            .data(treemap.nodes(json).filter(function (d) {
+                return !d.children;
+            }))
+            //.sort(function(a, b) { return a.size - b.size; })
+            .enter().append("g")
+            .attr("class", "cell")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+
+        // calculate most of the coordinates for tooltipping just once:
+        var root = d3.select("svg"); // WARNING: only works when the first SVG in the page is us!
+        var scr = {x: window.scrollX, y: window.scrollY, w: window.innerWidth, h: window.innerHeight};
+        // it's jolly rotten but <body> width/height can be smaller than the SVG it's carrying inside! :-((
+        var body_sel = d3.select('body');
+        // this is browser-dependent, but screw that for now!
+        var body = {w: body_sel.node().offsetWidth, h: body_sel.node().offsetHeight};
+        var doc = {w: document.width, h: document.height};
+        var svgpos = getNodePos(root.node());
+        var dist = {x: 10, y: 10};
+
+
+        //if node returns null for children, display, else display:none;
+
+        cell.append("rect")
+            .attr("width", function (d) {
+                return d.dx;
+            })
+            .attr("height", function (d) {
+                return d.dy;
+            })
+            .style("stroke-width", 2)
+            .style("stroke", "blue")
+            .style("fill", function (d) {
+                return d.color
+            })
+            //.style("fill-opacity", .5)
+            .on("mousemove", function () {
+                var m = d3.mouse(root.node());
+                scr.x = window.scrollX;
+                scr.y = window.scrollY;
+                m[0] += svgpos.x;
+                m[1] += svgpos.y;
+                tooltip.style("right", "");
+                tooltip.style("left", "");
+                tooltip.style("bottom", "");
+                tooltip.style("top", "");
+                console.log('coordinates: doc/body/scr/svgpos/mouse: ', doc, body, scr, svgpos, m);
+                if (m[0] > scr.x + scr.w / 2) {
+                    tooltip.style("right", (body.w - m[0] + dist.x) + "px");
+                }
+                else {
+                    tooltip.style("left", (m[0] + dist.x) + "px");
+                }
+
+                if (m[1] > scr.y + scr.h / 2) {
+                    tooltip.style("bottom", (body.h - m[1] + dist.y) + "px");
+                }
+                else {
+                    tooltip.style("top", (m[1] + dist.y) + "px");
+                }
+                tooltip.style("visibility", "visible");
+            })
+            .on("mouseout", function () {
+                tooltip.style("visibility", "hidden");
+            });
+        /*.on("mouseover",  function() {
+          d3.select(this).style("fill-opacity", .5).style("stroke-width", 4);
+          //d3.select("rect").attr("visibility", "visible");
+        })
+        .on("mouseout",  function() {
+          d3.select(this).style("fill",function(d) { return d.color}).style("fill-opacity", 1).style("stroke-width", 2);
+        //d3.select("text").attr("visibility", "hidden");
+        });
+        */
+        //.style("fill", function(d) { return d.children ? color(d.data.name) : null; })
+
+
+        cell.append("text")
+            .attr("x", function (d) {
+                return d.dx / 2;
+            })
+            .attr("y", function (d) {
+                return d.dy / 2;
+            })
+            //.attr("dy", ".35em")
+            .attr("font-size", 10)
+            .attr("font-family", "Georgia")
+            .attr("text-anchor", "middle")
+            //.attr("visibility", "hidden")
+            .attr("fill", "white")
+            //  .style("stroke", "white") .style("stroke-width", .5)
+            //.text("hello");
+            .text(function (d) {
+                return d.name;
+            });
+
+        /*
+          .each(function(d) {
+              var box,
+                  area = d.dx * d.dy,
+                  w = d.dx,
+                  t = d3.select(this);
+              do {
+                t.style("font-size", w-- + "px");
+                box = this.getBBox();
+              } while (norm2(box.x, box.y) > area
+                || norm2(box.x + box.width, box.y) > area
+                || norm2(box.x + box.width, box.y + box.height) > area
+                || norm2(box.x, box.y + box.height) > area);
+            });
+          */
+
+
+    });
+
+
+</script>
+
+</body>
+</html>
