@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> event test </title>
+    <script type="text/javascript">
+        function show_coords(event) {
+            x = event.clientX
+            y = event.clientY
+            alert("X coords: " + x + ", Y coords: " + y)
+        }
+    </script>
+</head>
+
+<body onmousedown="show_coords(event)">
+
+<p>
+    Click in the document. An alert box will alert
+    the x and y coordinates of the mouse pointer.
+</p>
+
+</body>
+</html>

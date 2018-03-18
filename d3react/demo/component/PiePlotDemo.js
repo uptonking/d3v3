@@ -32,7 +32,7 @@ export default class PiePlotDemo extends Component {
           width={800}
           height={480}
           margin={{top: 10, bottom: 10, left: 100, right: 100}}
-          tooltipOffset={{top: 175, left: 200}}
+          tooltipOffset={{top: 210, left: 280}}
           tooltipHtml={tooltipPie}
           tooltipMode={'fixed'}
           sort={null}

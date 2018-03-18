@@ -46,12 +46,18 @@ class PiePlot extends React.Component {
 
     const svg = this._svgNode;
     let position;
+
     if (svg.createSVGPoint) {
       let point = svg.createSVGPoint();
+      //clientX事件属性返回当事件被触发时鼠标指针向对于浏览器页面（或客户区）的水平坐标。
       point.x = e.clientX;
       point.y = e.clientY;
+      console.log('====point')
+      console.log(point)
       point = point.matrixTransform(svg.getScreenCTM().inverse());
+      console.log(point)
       position = [point.x - margin.left, point.y - margin.top];
+
     } else {
       const rect = svg.getBoundingClientRect();
       position = [e.clientX - rect.left - svg.clientLeft - margin.left,
@@ -67,15 +73,19 @@ class PiePlot extends React.Component {
     let left = 0;
 
     if (tooltipMode === 'fixed') {
+      console.log('====tooltipMode fixed')
+
       top = svgTop + tooltipOffset.top;
       left = svgLeft + tooltipOffset.left;
     } else if (tooltipMode === 'element') {
+      console.log('====tooltipMode element')
+
       top = svgTop + yPos + tooltipOffset.top;
       left = svgLeft + xPos + tooltipOffset.left;
     } else { // mouse
+      console.log('====tooltipMode mouse')
       top = e.clientY + tooltipOffset.top;
       left = e.clientX + tooltipOffset.left;
-      console.log('====tooltipMode mouse')
     }
 
     //线性插值函数
