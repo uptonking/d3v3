@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> pie padding </title>
+    <script type="text/javascript" src="../d3.js"></script>
+    <style type="text/css">
+        #svg {
+            padding: 20px;
+        }
+
+        #svg svg {
+            overflow: visible;
+        }
+    </style>
+</head>
+<body>
+
+<div id="svg">
+
+</div>
+
+<script type="text/javascript">
+    !function () {
+        console.log('loaded');
+
+        var svgSize = 200;
+        var radius = svgSize / 2;
+        var data = [{value: 1}, {value: 3}, {value: 2}, {value: 2}];
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(0);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function (d) {
+                return d.value;
+            });
+
+// Create svg
+        svg = d3.select("#svg").append("svg:svg")
+            .attr("width", svgSize)
+            .attr("height", svgSize);
+
+
+// Create new paths
+        pieWrap = svg.append("g")
+            .attr('height', svgSize).attr('width', svgSize)
+            .attr('x', 0).attr('y', 0)
+            .attr("transform", "translate(" + radius + "," + radius + ")");
+
+        paths = pieWrap.selectAll("path")
+            .data(pie(data)).enter()
+            .append("path")
+            .style("fill", "rgba(90, 168, 217, 1)")
+            .style("stroke", "#FFF")
+            .style("stroke-width", "0")
+            .style("stroke-opacity", "0")
+            .attr("transform", function (path) {
+                console.log(path);
+                middleAngle = -Math.PI / 2 + (path.startAngle + path.endAngle) / 2;
+                dx = 3 * Math.cos(middleAngle);
+                dy = 3 * Math.sin(middleAngle);
+                console.log("dx, dy: " + dx + ", " + dy);
+                return "translate(" + dx + ", " + dy + ")";
+            })
+            .attr("d", arc);
+
+    }();
+</script>
+</body>
+</html>

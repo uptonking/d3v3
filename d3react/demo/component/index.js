@@ -24,6 +24,8 @@ import RadialBarChart from './RadialBarChart';
 import Treemap from './Treemap';
 import Sankey from './Sankey';
 
+import PiePlotDemo from './PiePlotDemo';
+
 import ResponsiveContainer from './ResponsiveContainer';
 
 export default {
@@ -38,6 +40,8 @@ export default {
     RadialBarChart,
     Treemap,
     Sankey,
+    PiePlotDemo,
+
   },
 
   polar: {

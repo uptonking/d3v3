@@ -151,7 +151,7 @@ export default class Demo extends Component {
           change data
         </a>
         <br/>
-        <p>Simple PieChart</p>
+        <p>Simple PieChart 简单饼状图 非响应式</p>
         <div className="pie-chart-wrapper">
           <button onClick={this.handleChangeAnimation}>change animation</button>
           <PieChart width={800} height={400}>
@@ -193,14 +193,14 @@ export default class Demo extends Component {
                 ))
               }
               <Label width={50} position="center">
-                测试换行 测试杭欢
+                测试换行
               </Label>
             </Pie>
           </PieChart>
         </div>
 
 
-        <p>PieChart with two donut</p>
+        <p>PieChart with two donut 二环图 非响应式</p>
         <div className="pie-chart-wrapper">
           <PieChart width={400} height={400}>
             <Legend verticalAlign="top"/>
@@ -209,7 +209,7 @@ export default class Demo extends Component {
           </PieChart>
         </div>
 
-        <p>PieChart wrapped by ResponsiveContainer</p>
+        <p>PieChart wrapped by ResponsiveContainer 二环图 响应式</p>
         <div className="pie-chart-wrapper" style={{width: '50%', height: '100%', backgroundColor: '#f5f5f5'}}>
           <ResponsiveContainer>
             <PieChart>
@@ -220,7 +220,7 @@ export default class Demo extends Component {
           </ResponsiveContainer>
         </div>
 
-        <p>PieChart wrapped by ResponsiveContainer</p>
+        <p>PieChart wrapped by ResponsiveContainer 环形图 响应式</p>
         <div className="pie-chart-wrapper" style={{width: '50%', height: '100%', backgroundColor: '#f5f5f5'}}>
           <ResponsiveContainer>
             <PieChart onMouseEnter={this.handlePieChartEnter}>
@@ -245,7 +245,7 @@ export default class Demo extends Component {
           </ResponsiveContainer>
         </div>
 
-        <p>PieChart has bug about tooltip</p>
+        <p>PieChart has bug about tooltip 饼状图的tooptip有bug</p>
         <div className="pie-chart-wrapper" style={{width: '50%', height: '100%', backgroundColor: '#f5f5f5'}}>
           <ResponsiveContainer>
             <PieChart>

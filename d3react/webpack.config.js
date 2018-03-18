@@ -10,7 +10,9 @@ const config = {
   entry: './src/index.js',
 
   output: {
+    //output.library 的值的作用，取决于output.libraryTarget 选项的值
     library: 'Recharts',
+    //将你的 library 暴露为所有的模块定义下都可运行的方式
     libraryTarget: 'umd',
   },
 
@@ -29,6 +31,16 @@ const config = {
     }],
   },
 
+  plugins: [
+    new LodashModuleReplacementPlugin({
+      collections: true,
+      shorthands: true,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env),
+    }),
+  ],
+
   devtool: 'source-map',
 
   externals: {
@@ -46,15 +58,7 @@ const config = {
     },
   },
 
-  plugins: [
-    new LodashModuleReplacementPlugin({
-      collections: true,
-      shorthands: true,
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env),
-    }),
-  ],
+
 };
 
 if (env === 'analyse') {

@@ -51,3 +51,6 @@ export ScatterChart from './chart/ScatterChart';
 export AreaChart from './chart/AreaChart';
 export RadialBarChart from './chart/RadialBarChart';
 export ComposedChart from './chart/ComposedChart';
+
+// ===============自定义图表==============
+export PiePlot from './chart/Pie/PiePlot';
