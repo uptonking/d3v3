@@ -1,15 +1,15 @@
 # d3react
-ready to use chart components built with react & d3-3.5.17 
+reusable chart components built with react & d3-3.5.17 
 
-## Introduction
+## Target
 
-d3react is a **Redefined** chart library built with [React](https://facebook.github.io/react/) and [D3](http://d3js.org).
+d3react is an **interactive** chart library built with [React](https://facebook.github.io/react/) and [D3](http://d3js.org).
 
-The main purpose of this library is to help you to write charts in React applications without any pain. Main principles of d3react are:
+The main purpose of this library is to make developers and users happy when writing charts in React. Main principles of d3react are:
 
-1. **Simply** deploy with React components
-1. **Native** SVG support, lightweight depending only on some D3 submodules
-1. **Declarative** components, components of charts are purely presentational
+- **Simple & Easy** to use with React components
+- **Interactive** charting experience
+- **Dynamic** data update support
 
 ## dev build
 

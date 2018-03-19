@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {PiePlot} from 'recharts';
-import {changeNumberOfData} from './utils';
+// import {changeNumberOfData} from './utils';
 
 
 export default class PiePlotDemo extends Component {
@@ -25,16 +25,17 @@ export default class PiePlotDemo extends Component {
     };
 
     return (
-      <div className="pie-charts">
+      <div>
         <p>Simple PieChart</p>
         <PiePlot
           data={data}
           width={800}
           height={480}
           margin={{top: 10, bottom: 10, left: 100, right: 100}}
+
+          tooltipMode={'fixed'}
           tooltipOffset={{top: 210, left: 280}}
           tooltipHtml={tooltipPie}
-          tooltipMode={'fixed'}
           sort={null}
         />
       </div>

@@ -24,7 +24,7 @@ import RadialBarChart from './RadialBarChart';
 import Treemap from './Treemap';
 import Sankey from './Sankey';
 
-import PiePlotDemo from './PiePlotDemo';
+import PiePlotDemo from './plot/PiePlotDemo';
 
 import ResponsiveContainer from './ResponsiveContainer';
 

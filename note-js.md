@@ -87,3 +87,6 @@ new function () { /* code */ }
 new function () { /* code */ } () // 如果需要传递参数，只需要加上括弧()
 ```
 
+## js-lib
+- core-js  
+为es5、es6提供polyfill

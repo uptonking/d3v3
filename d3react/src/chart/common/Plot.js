@@ -26,14 +26,14 @@ class Plot extends React.Component {
            viewBox={viewBox}
            preserveAspectRatio={preserveAspectRatio}>
 
-        <g transform={`translate(${margin.left}, ${margin.top})`}>{children}</g>
+        <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {children}
+        </g>
 
       </svg>
     );
   }
 }
-
-
 
 Plot.propTypes = {
   height: number.isRequired,
