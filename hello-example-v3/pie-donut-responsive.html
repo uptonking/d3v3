@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> Responsive D3 Donut graph from XML </title>
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <script src="../d3.js"></script>
+    <style>
+        body {
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+        .graph-div {
+            width: 80%;
+            display: inline-block;
+            background: #fff;
+            border-radius: 10px;
+            height: 500px;
+            margin: 1rem;
+        }
+
+        .graph-title {
+            border-bottom: 0.1px solid black;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 2px;
+            color: white;
+            background-color: steelblue;
+        }
+
+        .visualization {
+            height: 500px;
+        }
+
+        .tooltip {
+            position: absolute;
+            display: none;
+            width: auto;
+            height: auto;
+            background: none repeat scroll 0 0 #f2f2f2;
+            border: 0 none;
+            border-radius: 8px 8px 8px 8px;
+            box-shadow: -3px 3px 15px #888888;
+            color: black;
+            font: 12px sans-serif;
+            padding: 5px;
+            text-align: left;
+        }
+
+        .tooltip-title {
+            font: 18px sans-serif;
+            text-align: center;
+            width: 100%;
+            border-bottom: 0.1rem solid gray;
+            margin-bottom: 0.1rem;
+
+        .tooltip-count {
+            font-size: 14px;
+            display: inline;
+            padding-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="graph-div ">
+    <div class="graph-title">Pie Chart</div>
+
+    <div id="visualization" class="visualization"></div>
+</div>
+</body>
+<script type="text/javascript">
+    //************************************************************
+    // initialize Global Variables and call methods to plot visual
+    //************************************************************
+
+    draw();
+
+    function draw() {
+//margin variable is used to give margin to the svg element.USing this you can design relative position code
+        var margin = {top: 20, right: 10, bottom: 100, left: 60}, pad = 20,
+
+//This is to get width and height from parentdiv.So graph will be placed inside parent div
+            width = document.getElementById("visualization").offsetWidth - margin.left - margin.right,
+            height = document.getElementById("visualization").offsetHeight - margin.top - margin.bottom,
+            radius = Math.min(height / 2, width / 3.5) - 5;
+        console.log(radius);
+        d3.select("#visualization svg").remove();
+        var svg = d3.select("#visualization").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + (radius + margin.right) + "," + height / 2 + ")");
+
+//************************************************************
+// Donut chart D3 config
+//************************************************************
+
+        var arc = d3.svg.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+
+        var pie = d3.layout.pie().sort(null)
+            .value(function (d) {
+                return d.data1;
+            }).padAngle(0);
+
+        d3.xml("data/religiontree.xml", function (error, data) {
+            if (error) {
+                throw error;
+                alert("Enable to load XML file")
+            }
+            ;
+            console.log(data);
+
+            // Convert the XML document to an array of objects.
+            // Note that querySelectorAll returns a NodeList, not a proper Array,
+            // so we must use map.call to invoke array methods.
+            data = [].map.call(data.querySelectorAll("data"), function (region) {
+                return {
+                    label: region.getAttribute("label"),
+                    data1: +region.getAttribute("data1"),
+                    color: region.getAttribute("color")
+                };
+            });
+            console.log(data)
+
+//************************************************************
+// Add SVG and draw donut chart using config
+//************************************************************
+
+            var tooltip = d3.select("body").append("div");// declare the tooltip div
+            console.log(data);
+            var donut = svg.selectAll("path")
+                .data(pie(data))
+                .enter();
+
+            donut.append("path")
+                .on("mouseover", function (d) {
+                    tooltip.attr("class", "tooltip");
+                    tooltip.style("left", d3.event.pageX + 10 + "px");
+                    tooltip.style("top", d3.event.pageY - 25 + "px");
+                    tooltip.style("display", "inline-block");
+                    tooltip.html("<div class='tooltip-title'>" + d.data.label
+                        + "</div>" + "<div class='tooltip-count'>  " + d.data.data1 + "</div>");
+                })
+                .on("mouseout", function (d) {
+                    tooltip.style("display", "none");
+                })
+                .attr("fill", function (d, i) {
+                    return "#" + d.data.color.substring(2, 8);
+                })
+                .transition()
+                .ease("exp")
+                .duration(1000)
+                .attrTween("d", tweenPie);
+
+//************************************************************
+// Add Text on arc of circle and
+// at bottom show total no of books count
+//************************************************************
+            donut.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                .transition()
+                .delay(1200)
+                .attr("transform", function (d) {
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                .attr("dy", ".35em")
+                .attr("dx", "-1em")
+                .style("font-size", function (d) {
+                    return radius * 0.11 + "px";
+                })
+                .text(function (d) {
+                    if (d.data.data1 > 3) return d.data.data1 + " %";
+                });
+
+            function tweenPie(b) {
+                var i = d3.interpolate({startAngle: 1.1 * Math.PI, endAngle: 1.1 * Math.PI}, b);
+                return function (t) {
+                    return arc(i(t));
+                };
+            }
+
+//************************************************************
+// Add Legend on right side
+//************************************************************
+
+            var legendTextPad = radius * 0.1;
+            var legendG = svg.selectAll(".legend")
+                .data(data)
+                .enter().append("g")
+                .attr("transform", function (d, i) {
+                    return "translate(" + (radius + pad) + "," + ((i * 35) - height / 2.5 - pad) + ")"; // place each legend on the right
+                })
+                .attr("class", "legend");
+
+            legendG.append("rect") // make a matching color rect
+                .attr("width", legendTextPad)
+                .attr("height", legendTextPad)
+                .attr("fill", function (d, i) {
+                    return "#" + d.color.substring(2, 8);
+                });
+            legendG.append("text") // add the text
+                .text(function (d) {
+                    return d.label + " (" + d.data1 + "%  ) ";
+                })
+                .style("font-size", function (d) {
+                    return radius * 0.11 + "px";
+                })
+                .attr("y", legendTextPad / 1.5)
+                .attr("x", legendTextPad + pad / 5);
+
+
+        });
+    }
+
+    window.addEventListener("resize", draw);
+
+</script>
+
+</html>

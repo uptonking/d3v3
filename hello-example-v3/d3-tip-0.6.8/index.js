@@ -35,6 +35,7 @@
             var direction = d3_tip_direction,
                 offset = d3_tip_offset,
                 html = d3_tip_html,
+                //tip显示的容器节点
                 node = initNode(),
                 svg = null,
                 point = null,
@@ -47,7 +48,7 @@
             function tip(vis) {
                 //获取svg dom节点
                 svg = getSVGNode(vis);
-                //获取svg顶点坐标
+                //创建svg顶点坐标
                 point = svg.createSVGPoint();
 
                 document.body.appendChild(node);
@@ -270,7 +271,6 @@
              */
             function initNode() {
                 var node = d3.select(document.createElement('div'));
-
                 node.style({
                     position: 'absolute',
                     top: 0,
