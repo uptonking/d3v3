@@ -54,3 +54,5 @@ export ComposedChart from './chart/ComposedChart';
 
 // ===============自定义图表==============
 export PiePlot from './chart/Pie/PiePlot';
+export LinePlot from './chart/Line/LinePlot';
+export BarPlot from './chart/Bar/BarPlot';

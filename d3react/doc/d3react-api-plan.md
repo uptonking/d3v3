@@ -1,5 +1,5 @@
 # d3react-api
-d3react库的api设计
+d3react库的api设计 
 
 ## 图表通用配置项
 

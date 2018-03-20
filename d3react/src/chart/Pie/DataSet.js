@@ -5,7 +5,7 @@ import Sector from "./Sector";
 const {string, number, bool, func, array} = PropTypes;
 
 /**
- * 饼图数据容器
+ * 饼状图数据容器
  */
 class DataSet extends React.Component {
 

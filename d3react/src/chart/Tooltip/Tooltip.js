@@ -10,8 +10,8 @@ class Tooltip extends React.Component {
 
   render() {
 
-    console.log('====props Tooltip')
-    console.log(this.props)
+    // console.log('====props Tooltip')
+    // console.log(this.props)
 
     //translate暂未使用
     const {top, left, hidden, html, translate} = this.props;

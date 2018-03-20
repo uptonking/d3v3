@@ -26,7 +26,7 @@ export default class PiePlotDemo extends Component {
 
     return (
       <div>
-        <p>Simple PieChart</p>
+        <p>Simple Pie Plot</p>
         <PiePlot
           data={data}
           width={800}

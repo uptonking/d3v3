@@ -1,6 +1,6 @@
 # Contributing to d3react
 
-We'd love for you to contribute to our source code and to make Recharts even better than it is today! Here are the guidelines we'd like you to follow:
+We'd love for you to contribute to our source code and to make d3react even better than it is today! Here are the guidelines we'd like you to follow:
 
 + [Issues and Bugs](#issues)
 + [Pull Requests](#pr)
@@ -11,11 +11,11 @@ We'd love for you to contribute to our source code and to make Recharts even bet
 
 ### Where to Find Known Issues
 
-We will be using [GitHub Issues](https://github.com/recharts/recharts/issues) for our public bugs. We will keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn't already exist.
+We will be using [GitHub Issues](https://github.com/uptonking/d3react/issues) for our public bugs. We will keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn't already exist.
 
 ### Reporting New Issues
 
-The best way to get your bug fixed is to provide a reduced test case. jsFiddle  provide a way to give live examples. You can fork our example in [recharts.org](http://recharts.org/) to show your case.
+The best way to get your bug fixed is to provide a reduced test case. jsFiddle  provide a way to give live examples.   
 
 
 ## <a name="pr"></a>Pull Requests
@@ -28,7 +28,7 @@ The best way to get your bug fixed is to provide a reduced test case. jsFiddle  
 
 + Fork the repo and create your branch from `master`.
 + If you've added code that should be **tested**, add tests!
-+ If you've changed APIs, update the [documentation](https://github.com/recharts/recharts.org) and demo.
++ If you've changed APIs, update the demo.
 + Ensure the test suite passes (`npm run test`).
 + Make sure your code lints (`npm run lint`) - we've done our best to make sure these rules match our internal linting guidelines.
 
@@ -46,7 +46,7 @@ However, there are still some styles that the linter cannot pick up. If you are 
 * Commas last `,`
 * 2 spaces for indentation (no tabs)
 * Prefer `'` over `"`
-* 100 character line length
+* 120 character line length
 * Write "attractive" code
 
 ## <a name="license"></a>License

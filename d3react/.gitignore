@@ -1,0 +1,15 @@
+.idea/
+*.iml
+
+.DS_Store
+*.log
+node_modules
+umd
+lib
+es6
+coverage
+*.orig
+npm-debug.log
+package-lock.json
+
+

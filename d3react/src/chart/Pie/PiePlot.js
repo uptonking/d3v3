@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import d3 from 'd3';
 
-import Tooltip from '../Tooltip/Tooltip';
 import Plot from '../common/Plot';
+import Tooltip from '../Tooltip/Tooltip';
+
 import DataSet from './DataSet';
 
-
 const {string, number, bool, func, object, array, shape, any, oneOf, oneOfType, objectOf} = PropTypes;
-
 
 class PiePlot extends React.Component {
 
@@ -27,7 +26,7 @@ class PiePlot extends React.Component {
   }
 
   onMouseEnter = (e, data) => {
-    console.log('====onMouseEnter ')
+    // console.log('====onMouseEnter ')
     // console.log(this.props);
 
     if (!this.props.tooltipHtml) {
@@ -52,10 +51,10 @@ class PiePlot extends React.Component {
       //clientX事件属性返回当事件被触发时鼠标指针向对于浏览器页面（或客户区）的水平坐标。
       point.x = e.clientX;
       point.y = e.clientY;
-      console.log('====point')
-      console.log(point)
+      // console.log('====point')
+      // console.log(point)
       point = point.matrixTransform(svg.getScreenCTM().inverse());
-      console.log(point)
+      // console.log(point)
       position = [point.x - margin.left, point.y - margin.top];
 
     } else {
@@ -73,17 +72,17 @@ class PiePlot extends React.Component {
     let left = 0;
 
     if (tooltipMode === 'fixed') {
-      console.log('====tooltipMode fixed')
+      // console.log('====tooltipMode fixed')
 
       top = svgTop + tooltipOffset.top;
       left = svgLeft + tooltipOffset.left;
     } else if (tooltipMode === 'element') {
-      console.log('====tooltipMode element')
+      // console.log('====tooltipMode element')
 
       top = svgTop + yPos + tooltipOffset.top;
       left = svgLeft + xPos + tooltipOffset.left;
     } else { // mouse
-      console.log('====tooltipMode mouse')
+      // console.log('====tooltipMode mouse')
       top = e.clientY + tooltipOffset.top;
       left = e.clientX + tooltipOffset.left;
     }
@@ -112,7 +111,7 @@ class PiePlot extends React.Component {
   }
 
   onMouseLeave = (e) => {
-    console.log('====onMouseEnter ')
+    // console.log('====onMouseEnter ')
 
     if (!this.props.tooltipHtml) {
       console.log('====onMouseLeave tooltipHtml为空')
@@ -160,7 +159,7 @@ class PiePlot extends React.Component {
       labelRadius
     } = this.props;
 
-    console.log('====props PiePlot')
+    // console.log('====props PiePlot')
     // console.log(this.props);
     // console.log(this.state.tooltip.hidden);
 
@@ -236,19 +235,19 @@ class PiePlot extends React.Component {
 
 PiePlot.defaultProps = {
 
-  //== 画布尺寸
+  //== defaultProps
   data: {label: 'No data available', values: [{x: 'No data available', y: 1}]},
   margin: {top: 0, bottom: 0, left: 0, right: 0},
   xScale: null,
   yScale: null,
   colorScale: d3.scale.category20(),
-  //== tooltip数据提取
+  //== accessor
   label: stack => stack.label,
   values: stack => stack.values,
   x: e => e.x,
   y: e => e.y,
   y0: () => 0,
-  //== tooltip位置
+  //== tooltip
   tooltipMode: 'mouse',
   tooltipOffset: {top: 0, left: 0},
   tooltipHtml: null,
