@@ -1,6 +1,9 @@
 # note-js
 
-## convention
+## history
+- js的函数调用  
+定义 function f1(a,b){}  
+单参数也可以调用 f1(c)  
 - 模块化开发不推荐使用css和html，可以都写在js中
 
 ## tool
