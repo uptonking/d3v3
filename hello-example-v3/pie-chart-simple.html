@@ -17,19 +17,28 @@
 <script type="text/javascript">
 
     //Width and height
-    var w = 300;
-    var h = 300;
+    var w = 640;
+    var h = 640;
 
     var dataset = [5, 10, 20, 45, 6, 25];
 
     var outerRadius = w / 2;
     var innerRadius = w / 3;
+
+    //圆弧路径字符串
     var arc = d3.svg.arc()
-        .innerRadius(0)
-        // .innerRadius(innerRadius)
+    //内半径为0时代表圆形
+    // .innerRadius(0)
+        .innerRadius(innerRadius)
         .outerRadius(outerRadius);
 
+    console.log('====arc');
+    console.log(arc);
+
     var pie = d3.layout.pie();
+
+    console.log('====pie(dataset)');
+    console.log(pie(dataset))
 
     //Easy colors accessible via a 10-step ordinal scale
     var color = d3.scale.category10();
@@ -46,6 +55,7 @@
         .enter()
         .append("g")
         .attr("class", "arc")
+        //所有扇形中心平移半径的距离
         .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 
     //Draw arc paths

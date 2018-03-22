@@ -2,7 +2,11 @@
 
 ## summary
 
-
+- d3.svg.arc()
+    - disk 圆形
+    - sector 扇形
+    - annulus 圆环
+    - annular sector 环形扇区
 - 约定
     - tooltip 鼠标提示
     - label 数据标注
