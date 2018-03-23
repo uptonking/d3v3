@@ -1,10 +1,7 @@
+//通过toString() 来获取每个对象的类型
 let __type = Object.prototype.toString;
 
-var options = {
-    async: false,
-    dirtyComponent: {}
-}
-
+//类型编码
 var numberMap = {
     //null undefined IE6-8这里会返回[object Object]
     "[object Boolean]": 2,
@@ -13,27 +10,34 @@ var numberMap = {
     "[object Function]": 5,
     "[object Symbol]": 6,
     "[object Array]": 7
+    // "[object Date]": 7
+};
+
+var options = {
+    async: false,
+    dirtyComponent: {}
 };
 
 /**
  * 给数字类的加上'px'
- * @param {*} styleNumber
  */
 const specialStyle = {
     zIndex: 1
-}
+};
 
 
 function styleHelper(styleName, styleNumber) {
+
     if (typeNumber(styleNumber) === 3) {
         const style = specialStyle[styleName] ? styleNumber : styleNumber + 'px'
-        return style
+        return style;
     }
-    return styleNumber
+    return styleNumber;
 }
 
 
 /**
+ * 打印data数据的类型字符串，并返回相应数字
  * undefined: 0, null: 1, boolean:2, number: 3, string: 4, function: 5, symbol:6, array: 7, object:8
  * @param {any} data
  */
@@ -44,6 +48,7 @@ function typeNumber(data) {
     if (data === undefined) {
         return 0;
     }
+
     var a = numberMap[__type.call(data)];
     return a || 8;
 }
@@ -55,10 +60,12 @@ function typeNumber(data) {
  * @param {Vnode} next
  */
 function isSameVnode(pre, next) {
+
     if (pre.type === next.type && pre.key === next.key) {
-        return true
+        return true;
     }
-    return false
+
+    return false;
 }
 
 
@@ -68,18 +75,18 @@ function isSameVnode(pre, next) {
  * @param {Vnode} old
  */
 function mapKeyToIndex(old) {
-    let hascode = {}
+    let hascode = {};
     old.forEach((el, index) => {
         if (el.key) {
             hascode[el.key] = index
         }
-    })
-    return hascode
+    });
+    return hascode;
 }
 
 
 /**
- * 判定否为与事件相关
+ * 判断是否为与事件相关
  *
  * @param {any} name
  * @returns
@@ -93,11 +100,8 @@ function isEventNameLowerCase(name) {
 }
 
 /**
- * 展开对象
- * @param {*} obj
- * @param {*} props
+ * 将props的属性复制给obj
  */
-
 function extend(obj, props) {
     for (let i in props) obj[i] = props[i];
     return obj;
@@ -107,8 +111,7 @@ function extend(obj, props) {
  * 空函数
  */
 const noop = () => {
-
-}
+};
 
 export {
     options,

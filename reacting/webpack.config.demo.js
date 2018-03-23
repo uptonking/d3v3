@@ -1,10 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
-// const FileManagerPlugin = require('filemanager-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 module.exports = {
-    // context: __dirname,
-
     entry: [
         './demo/index.js',
     ],
@@ -23,16 +21,16 @@ module.exports = {
             new webpack.NamedModulesPlugin(),
             new webpack.HotModuleReplacementPlugin(),
             // new webpack.NoErrorsPlugin(),
-            //     new FileManagerPlugin({
-            //         onEnd: [
-            //             {
-            //                 copy: [
-            //                     //目录是相对于执行npm run demo的根目录，而不是webpack.config.js的位置
-            //                     {source: "./demo/build/bundle.js", destination: "./docs/bundle.js"}
-            //                 ]
-            //             },
-            //         ]
-            //     }),
+            new FileManagerPlugin({
+                onEnd: [
+                    {
+                        copy: [
+                            //目录是相对于执行npm run命令的根目录，而不是webpack.config.js的位置
+                            {source: "./public", destination: "./docs"}
+                        ]
+                    },
+                ]
+            }),
         ],
 
     // resolve: {
@@ -65,7 +63,6 @@ module.exports = {
     devtool: 'inline-source-map',
     devServer:
         {
-            // contentBase: './',
             contentBase: path.join(__dirname, 'public'),
             port: 8999,
             hot: true,
@@ -74,5 +71,4 @@ module.exports = {
             watchContentBase: true,
         }
 
-}
-;
+};

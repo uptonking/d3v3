@@ -1,11 +1,10 @@
-//@flow
 import {typeNumber, isSameVnode, mapKeyToIndex, isEventName, extend, options} from "./utils";
 import {flattenChildren, Vnode as VnodeClass} from './createElement'
 import {mapProp, mappingStrategy, updateProps} from './mapProps'
-import {setRef} from './Refs'
+import {setRef} from './refs'
 import {disposeVnode} from './dispose'
 import {Com} from './component'
-import {catchError, collectErrorVnode, getReturn, runException, globalError} from './ErrorBoundary';
+import {catchError, collectErrorVnode, getReturn, runException, globalError} from './errorBoundary';
 
 
 //Top Api

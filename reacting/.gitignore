@@ -4,3 +4,5 @@
 bak/
 node_modules/
 build/
+public/bundle.js
+package-lock.json

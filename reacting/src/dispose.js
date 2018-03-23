@@ -1,7 +1,6 @@
 import {typeNumber} from './utils'
-import {clearRefs} from './Refs'
-import {clearEvents} from './mapProps';
-import {catchError} from './ErrorBoundary';
+import {clearRefs} from './refs'
+import {catchError} from './errorBoundary';
 
 function disposeVnode(Vnode) {//主要用于删除Vnode对应的节点
     const {type, props} = Vnode

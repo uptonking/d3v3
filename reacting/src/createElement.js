@@ -7,7 +7,7 @@ const RESERVED_PROPS = {
     key: true,
     __self: true,
     __source: true,
-}
+};
 
 
 function Vnode(type, props, key, ref) {
