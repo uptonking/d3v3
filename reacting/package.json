@@ -1,0 +1,25 @@
+{
+  "name": "reacting",
+  "version": "1.0.0",
+  "description": "hello, reacting",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run demo",
+    "demo": "webpack-dev-server --devtool eval-source-map --progress --color  --history-api-fallback --config './webpack.config.demo.js'  --mode development ",
+    "watch": "webpack --config webpack.config.js --mode development --watch --progress ",
+    "build": "webpack --config webpack.config.js --mode development ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "uptonking",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  }
+}

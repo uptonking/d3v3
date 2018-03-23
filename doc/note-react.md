@@ -7,6 +7,13 @@
 
 ## summary
 
+- react包
+    - react-dom
+        - ReactDOM.render, .unmountComponentAtNode, .findDOMNode  
+    - react-dom/server
+        - ReactDOMServer.renderToString, .renderToStaticMarkup.
+    - prop-types
+    
 - 高阶组件 Higher-Order Components  
     - 概念   
     高阶组件是一个函数，接收一个组件作为输入，返回一个功能进行处理后的新组件      

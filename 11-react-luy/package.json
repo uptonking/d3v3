@@ -8,9 +8,10 @@
     "performance"
   ],
   "scripts": {
-    "build": "./node_modules/.bin/babel --out-dir ./dist ./app/src/Luy",
-    "karma": "node node_modules/karma-event-driver-ext",
+    "build": "./node_modules/.bin/babel --out-dir ./dist ./src/Luy",
+    "study": "webpack-dev-server --devtool eval-source-map --progress --host 127.0.0.1 --colors --content-base ./build --history-api-fallback --config 'webpack.study.config.js' ",
     "start": "node ./scripts/start.js",
+    "karma": "node node_modules/karma-event-driver-ext",
     "temp": "NODE_ENV=production webpack -p --config webpack.pro.config.js ",
     "bench": "./bench.sh ",
     "reactBench": "NODE_ENV=production webpack -p --config './performance/webpack.config/webpack.reactPerformence.config.js' ",
@@ -18,7 +19,6 @@
     "jest": "jest --watch",
     "push": "python3 ./publish.py",
     "anu": "webpack-dev-server --devtool eval-source-map --progress --host 127.0.0.1 --colors --content-base ./build --history-api-fallback --config 'webpack.anu.config.js' ",
-    "study": "webpack-dev-server --devtool eval-source-map --progress --host 127.0.0.1 --colors --content-base ./build --history-api-fallback --config 'webpack.study.config.js' ",
     "test": "./build.sh",
     "dev": "webpack-dev-server --devtool eval-source-map --progress --host 127.0.0.1 --colors --content-base ./build --history-api-fallback",
     "portal": "webpack-dev-server --devtool eval-source-map --progress --host 127.0.0.1 --colors --content-base ./build --history-api-fallback --config './webpack.example.config.js' ",

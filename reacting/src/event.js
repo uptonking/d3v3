@@ -1,10 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.SyntheticEvent = SyntheticEvent;
-
 /**事件合成，暂时这么写 */
 function SyntheticEvent(event) {
     if (event.nativeEvent) {
@@ -24,7 +17,8 @@ function SyntheticEvent(event) {
 }
 
 var eventProto = SyntheticEvent.prototype = {
-    fixEvent: function fixEvent() {}, //留给以后扩展用
+    fixEvent: function fixEvent() {
+    }, //留给以后扩展用
     preventDefault: function preventDefault() {
         var e = this.nativeEvent || {};
         e.returnValue = this.returnValue = false;
@@ -32,7 +26,8 @@ var eventProto = SyntheticEvent.prototype = {
             e.preventDefault();
         }
     },
-    fixHooks: function fixHooks() {},
+    fixHooks: function fixHooks() {
+    },
     stopPropagation: function stopPropagation() {
         var e = this.nativeEvent || {};
         e.cancelBubble = this._stopPropagation = true;
@@ -40,7 +35,8 @@ var eventProto = SyntheticEvent.prototype = {
             e.stopPropagation();
         }
     },
-    persist: function noop() {},
+    persist: function noop() {
+    },
     stopImmediatePropagation: function stopImmediatePropagation() {
         this.stopPropagation();
         this.stopImmediate = true;
@@ -48,4 +44,8 @@ var eventProto = SyntheticEvent.prototype = {
     toString: function toString() {
         return "[object Event]";
     }
+};
+
+export {
+    SyntheticEvent,
 };

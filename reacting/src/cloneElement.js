@@ -1,7 +1,9 @@
 import { createElement } from "./createElement"
 
  function cloneElement(vnode, props) {
-    let config, children;
+
+    let config={}, children;
+
     for (let propName in vnode.props) {
         if (propName === 'children') {
             children = vnode.props[propName]
@@ -9,14 +11,15 @@ import { createElement } from "./createElement"
             config[propName] = vnode.props[propName]
         }
     }
-    config = { ...config, ...props }
 
-    let newKey = props.key ? props.key : vnode.key
-    let newRef = props.ref ? props.ref : vnode.ref
-    config['key'] = newKey
-    config['ref'] = newRef
+    config = { ...config, ...props };
 
-    return createElement(vnode.type, config, children)
+    let newKey = props.key ? props.key : vnode.key;
+    let newRef = props.ref ? props.ref : vnode.ref;
+    config['key'] = newKey;
+    config['ref'] = newRef;
+
+    return createElement(vnode.type, config, children);
 }
 
 export {

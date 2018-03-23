@@ -1,14 +1,14 @@
+
 function Vnode(type, props, key, ref) {
-    this.type = type
-    this.props = props
-    this.key = key
-    this.ref = ref
+    this.type = type;
+    this.props = props;
+    this.key = key;
+    this.ref = ref;
 }
 
 
 function createElement(type, config, ...children) {
-    //这几行基本是废话
-    
+
     let props = {},
         key = null,
         ref = null,
@@ -42,7 +42,7 @@ function createElement(type, config, ...children) {
     }else{
         props.children = children;
     }
-    
+
     //最后甩回去一个Vnode
     return new Vnode(type, props, key, ref);
 }

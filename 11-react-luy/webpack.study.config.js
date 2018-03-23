@@ -18,6 +18,7 @@ module.exports = {
         filename: "bundle.js",
         publicPath: "/"
     },
+
     devServer: {
         contentBase: resolve(__dirname, 'build'),
         hot: true,

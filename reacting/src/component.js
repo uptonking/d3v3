@@ -1,4 +1,3 @@
-// @flow
 import { update, currentOwner } from './vdom'
 import { options, extend } from './utils'
 import { Vnode } from './createElement'
@@ -20,7 +19,7 @@ class ReactClass {
   constructor(props, context) {
     this.props = props
     this.context = context
-    this.state = this.state || {}
+    this.state = this.state || {};
 
     this.nextState = null
     this._renderCallbacks = []
@@ -83,13 +82,15 @@ class ReactClass {
 
   _updateInLifeCycle() {
     if (this.stateMergeQueue.length > 0) {
-      let tempState = this.state
+      let tempState = this.state;
+
       this._penddingState.forEach((item) => {
         tempState = Object.assign({}, tempState, ...item.partialNewState)
-      })
-      this.nextState = { ...tempState }
-      this.stateMergeQueue = []
-      this.updateComponent()
+      });
+
+      this.nextState = { ...tempState };
+      this.stateMergeQueue = [];
+      this.updateComponent();
     }
   }
 
