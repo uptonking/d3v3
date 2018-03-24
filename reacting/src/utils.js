@@ -18,18 +18,15 @@ var options = {
     dirtyComponent: {}
 };
 
-/**
- * 给数字类的加上'px'
- */
 const specialStyle = {
     zIndex: 1
 };
 
-
 function styleHelper(styleName, styleNumber) {
 
     if (typeNumber(styleNumber) === 3) {
-        const style = specialStyle[styleName] ? styleNumber : styleNumber + 'px'
+        //给数字类的加上'px'
+        const style = specialStyle[styleName] ? styleNumber : styleNumber + 'px';
         return style;
     }
     return styleNumber;

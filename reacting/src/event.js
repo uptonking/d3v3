@@ -16,6 +16,7 @@ function SyntheticEvent(event) {
     this.nativeEvent = event;
 }
 
+//SyntheticEvent的prototype
 var eventProto = SyntheticEvent.prototype = {
     fixEvent: function fixEvent() {
     }, //留给以后扩展用

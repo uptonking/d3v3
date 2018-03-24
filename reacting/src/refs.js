@@ -2,9 +2,9 @@ import {typeNumber} from './utils'
 
 function setRef(Vnode, instance, domNode) {
     if (instance) {
-        const refType = typeNumber(Vnode.ref)
+        const refType = typeNumber(Vnode.ref);
         if (refStrategy[refType]) {
-            refStrategy[refType](Vnode, Vnode.owner, domNode)
+            refStrategy[refType](Vnode, Vnode.owner, domNode);
         }
     }
 }
@@ -37,7 +37,7 @@ const refStrategy = {
             Vnode.ref(domNode)
         }
     }
-}
+};
 
 export {
     setRef,

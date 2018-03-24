@@ -1,5 +1,8 @@
 import { createElement } from "./createElement"
 
+/**
+ * 遍历vnode的属性，并赋值给新对象
+ */
  function cloneElement(vnode, props) {
 
     let config={}, children;

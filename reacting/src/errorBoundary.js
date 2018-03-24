@@ -5,7 +5,7 @@ import {Com} from './component';
 var _errorVnode = [];
 var V_Instance = [];
 var errorMsg = '';
-export var globalError = undefined;
+var globalError = undefined;
 
 /**
  * 捕捉错误的核心代码，错误只会发生在用户事件回调，ref，setState回调，生命周期函数
@@ -133,6 +133,7 @@ function runException() {
 
 
 export {
+    globalError,
     catchError,
     getReturn,
     collectErrorVnode,

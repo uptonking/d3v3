@@ -36,6 +36,7 @@ class ReactClass {
         uniqueId++
     }
 
+    //更新组件
     updateComponent() {
 
         const prevState = this.state;
@@ -70,7 +71,8 @@ class ReactClass {
 
         newVnode = newVnode ? newVnode : new Vnode('#text', "", null, null);
         currentOwner.cur = lastOwner;
-        this.Vnode = update(oldVnode, newVnode, this.Vnode._hostNode, this.context);//这个函数返回一个更新后的Vnode
+        //这个函数返回一个更新后的Vnode
+        this.Vnode = update(oldVnode, newVnode, this.Vnode._hostNode, this.context);
 
         if (this.componentDidUpdate) {
             catchError(this, 'componentDidUpdate', [this.props, prevState, oldContext]);
@@ -85,6 +87,7 @@ class ReactClass {
         this._penddingState = []
     }
 
+    // state合并
     _updateInLifeCycle() {
         if (this.stateMergeQueue.length > 0) {
             let tempState = this.state;
@@ -102,8 +105,6 @@ class ReactClass {
     /**
      * 事件触发的时候setState只会触发最后一个
      * 在componentdidmount的时候会全部合成
-     * @param {*} partialNewState
-     * @param {*} callback
      */
     setState(partialNewState, callback) {
 
@@ -152,12 +153,20 @@ class ReactClass {
         }
     }
 
-    // shouldComponentUpdate() { }
+    /// ======== 更新阶段 ========
     componentWillReceiveProps() {
     }
 
-    // componentWillUpdate() { }
-    // componentDidUpdate() { }
+    shouldComponentUpdate() {
+    }
+
+    componentWillUpdate() {
+    }
+
+    componentDidUpdate() {
+    }
+
+    /// ======== 挂载/卸载阶段 ========
     componentWillMount() {
     }
 
@@ -167,12 +176,13 @@ class ReactClass {
     componentWillUnmount() {
     }
 
-    componentDidUnmount() {
-    }
+    // componentDidUnmount() {
+    // }
 
 
     render() {
     }
+
 }
 
 export {

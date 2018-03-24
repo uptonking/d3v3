@@ -467,10 +467,18 @@ ReactDOM.render(
     - ReactDOM.render()不会修改容器节点（只修改容器的子项）。你可以在不覆盖已有子节点的情况下添加一个组件到已有的DOM节点中去。
     - ReactDOM.render() 目前会返回一个引用， 指向 ReactComponent的根实例。但是这个返回值是历史遗留，应该避免使用。  
     因为未来版本的React可能会在某些情况下进行异步渲染。如果你真的需要一个指向 ReactComponent 的根实例的引用，推荐的方法是添加一个 callback ref到根元素上。
+    
 ## faq
 
-- fiber是React 16中新的和解引擎。它的主要目的是使虚拟DOM能够进行增量渲染 
+- fiber是React 16中新的和解引擎，它的主要目的是使虚拟DOM能够进行增量渲染   
 - vdom虚拟的视图被保存在内存中，并通过诸如ReactDOM这样的库与“真实”的DOM保持同步
+- 常用的 受控组件
+    - input
+    - textarea
+    - select
+    - checkbox
+    - radio button
+    - form
 
 
     

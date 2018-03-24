@@ -11,12 +11,19 @@ export {
 };
 
 export default {
+
+    //DOM相关方法
     findDOMNode,
-    // babel的默认设置是调用createElement这个函数
-    createElement,
     render,
+
+    //React工具方法
+    createElement,
     cloneElement,
-    createPortal,
     Children,
+
+    //组件相关
     Component: ReactClass,
-};
+
+    //将子节点渲染到父组件以外的DOM节点的方法
+    createPortal,
+}

@@ -1,7 +1,7 @@
-import { typeNumber } from "./utils";
-import { currentOwner } from './vdom'
+import {typeNumber} from "./utils";
+import {currentOwner} from './vdom'
 
-
+// 每个element的保留属性，自定义属性不能与保留字冲突
 const RESERVED_PROPS = {
     ref: true,
     key: true,
@@ -9,12 +9,14 @@ const RESERVED_PROPS = {
     __source: true,
 };
 
-
+/**
+ * vnode定义
+ */
 function Vnode(type, props, key, ref) {
-    this.owner = currentOwner.cur
-    this.type = type
-    this.props = props
-    this.key = key
+    this.owner = currentOwner.cur;
+    this.type = type;
+    this.props = props;
+    this.key = key;
     this.ref = ref
 }
 
@@ -24,7 +26,8 @@ function Vnode(type, props, key, ref) {
  * @param {object} config
  * @param {array} children
  */
-function createElement(type: string | Function, config, ...children: array) {
+function createElement(type, config, ...children) {
+
     let props = {},
         key = null,
         ref = null,
@@ -33,13 +36,13 @@ function createElement(type: string | Function, config, ...children: array) {
 
     if (config != null) {
         //巧妙的将key转化为字符串
-        key = config.key === undefined ? null : '' + config.key
-        ref = config.ref === undefined ? null : config.ref
+        key = config.key === undefined ? null : '' + config.key;
+        ref = config.ref === undefined ? null : config.ref;
 
         /**这一步讲外部的prop属性放进prop里 */
         for (let propName in config) {
             // 除去一些不需要的属性,key,ref等
-            if (RESERVED_PROPS.hasOwnProperty(propName)) continue
+            if (RESERVED_PROPS.hasOwnProperty(propName)) continue;
             //保证所有的属性都不是undefined
             if (config.hasOwnProperty(propName)) {
                 props[propName] = config[propName]
@@ -70,15 +73,15 @@ function createElement(type: string | Function, config, ...children: array) {
  * 实际上这里做的事情就是将文字节点全部转换成Vnode
  * @param {*} children
  */
-export function flattenChildren(children: Array, parentVnode) {
+export function flattenChildren(children, parentVnode) {
 
-    if (children === undefined) return new Vnode('#text', "", null, null)
+    if (children === undefined) return new Vnode('#text', "", null, null);
 
-    let length = children.length
+    let length = children.length;
     let ary = [],
         isLastSimple = false, //判断上一个元素是否是string 或者 number
         lastString = '',
-        childType = typeNumber(children)
+        childType = typeNumber(children);
 
     if (childType === 4 || childType === 3) {
         return new Vnode('#text', children, null, null)
@@ -96,19 +99,19 @@ export function flattenChildren(children: Array, parentVnode) {
             }
             item.forEach((item) => {
                 ary.push(item)
-            })
-            lastString = ''
+            });
+            lastString = '';
             isLastSimple = false
         }
         if (typeNumber(item) === 3 || typeNumber(item) === 4) {
-            lastString += item
+            lastString += item;
             isLastSimple = true
         }
         if (typeNumber(item) !== 3 && typeNumber(item) !== 4 && typeNumber(item) !== 7) {
             if (isLastSimple) {//上一个节点是简单节点
-                ary.push(lastString)
-                ary.push(item)
-                lastString = ''
+                ary.push(lastString);
+                ary.push(item);
+                lastString = '';
                 isLastSimple = false
             } else {
                 ary.push(item)
@@ -118,7 +121,7 @@ export function flattenChildren(children: Array, parentVnode) {
         if (length - 1 === index) {
             if (lastString) ary.push(lastString)
         }
-    })
+    });
     ary = ary.map((item) => {
         if (typeNumber(item) === 4) {
             item = new Vnode('#text', item, null, null)
@@ -133,7 +136,7 @@ export function flattenChildren(children: Array, parentVnode) {
         }
         return item
 
-    })
+    });
 
     return ary
 }

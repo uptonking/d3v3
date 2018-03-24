@@ -53,43 +53,53 @@ var controllData = {
         "onchange",
         preventUserChange
     ]
-}
+};
 
+//受控组件检查与警告
+const mapControlledElement = function (domNode, props) {
 
- const mapControlledElement = function (domNode, props) {
-    const type = domNode.type
-    const controllType = controllProps[type]
+    const type = domNode.type;
+    const controllType = controllProps[type];
+
     if (controllType) {
-        const data = controllData[controllType]//1.input 2.带有check的input 3.select
-        const controllProp = data[0]//value --- input,check---input,value---select
-        const otherProps = data[1]//如果元素定义了这些属性，那么就是受控属性，否则非受控
-        const event = data[2]//每一种元素对应的防止用户输入的方法
+
+        //1.input 2.带有check的input 3.select
+        const data = controllData[controllType];
+        //value --- input,check---input,value---select
+        const controllProp = data[0];
+        //如果元素定义了这些属性，那么就是受控属性，否则非受控
+        const otherProps = data[1];
+        //每一种元素对应的防止用户输入的方法
+        const event = data[2];
 
         if (controllProp in props && !hasOtherControllProperty(props, otherProps)) {
             console.warn(`你为${domNode.nodeName}[type=${type}]元素指定了${controllProp}属性，
             但是没有提供另外的${Object.keys(otherProps)}来控制${controllProp}属性的变化
             那么它即为一个非受控组件，用户无法通过输入改变元素的${controllProp}值`);
 
-            domNode._lastValue = props[controllProp]
+            domNode._lastValue = props[controllProp];
             domNode[event] = data[3]
         } else {
 
         }
 
     }
-}
+};
 
+//判断props的属性是否都在otherProps的属性中
 function hasOtherControllProperty(props, otherProps) {
-    for (var key in props) {
+    for (let key in props) {
         if (otherProps[key]) {
             return true;
         }
     }
 }
 
+//防止用户输入
 function preventUserInput(e) {
-    var target = e.target
-    var name = e.type === 'textarea' ? 'innerHTML' : 'value' //如果是textarea，他的输入保存在innerHTML里
+    var target = e.target;
+    //如果是textarea，他的输入保存在innerHTML里
+    var name = e.type === 'textarea' ? 'innerHTML' : 'value';
     target[name] = target._lastValue
 }
 
@@ -104,18 +114,19 @@ function preventUserChange(e) {
     }
 
 }
+
 function preventUserClick(e) {
     e.preventDefault()
 }
 
 function updateOptionsOne(options, length, lastValue) {
-    const stringValues = {}
-    console.log(options)
+    const stringValues = {};
+    console.log(options);
     for (let i = 0; i < length; i++) {
-        let option = options[i]
-        let value = option.value
+        let option = options[i];
+        let value = option.value;
         if (value === lastValue) {
-            option.selected = true
+            option.selected = true;
             return
         }
     }
@@ -126,7 +137,7 @@ function updateOptionsOne(options, length, lastValue) {
 }
 
 function updateOptionsMore(options, length, lastValue) {
-    var selectedValue = {}
+    var selectedValue = {};
     try {
         for (let i = 0; i < lastValue.length; i++) {
             selectedValue["&" + lastValue[i]] = true
@@ -136,9 +147,9 @@ function updateOptionsMore(options, length, lastValue) {
         console.warn('<select multiple="true"> 的value应该对应一个字符串数组')
     }
     for (let i = 0; i < n; i++) {
-        let option = options[i]
-        let value = option.value
-        let selected = selectedValue.hasOwnProperty("&" + value)
+        let option = options[i];
+        let value = option.value;
+        let selected = selectedValue.hasOwnProperty("&" + value);
         option.selected = selected
     }
 }

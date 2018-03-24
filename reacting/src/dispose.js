@@ -2,14 +2,15 @@ import {typeNumber} from './utils'
 import {clearRefs} from './refs'
 import {catchError} from './errorBoundary';
 
-function disposeVnode(Vnode) {//主要用于删除Vnode对应的节点
-    const {type, props} = Vnode
+//主要用于删除Vnode对应的节点
+function disposeVnode(Vnode) {
+    const {type, props} = Vnode;
     if (typeNumber(Vnode) === 7) {
         disposeChildVnode(Vnode);
         return;
     }
 
-    if (!type) return
+    if (!type) return;
     // clearEvents(Vnode._hostNode, props, Vnode);
     if (typeof Vnode.type === 'function') {
         if (Vnode._instance.componentWillUnmount) {
@@ -22,11 +23,11 @@ function disposeVnode(Vnode) {//主要用于删除Vnode对应的节点
         disposeChildVnode(Vnode.props.children)
     }
     if (Vnode._PortalHostNode) {
-        const parent = Vnode._PortalHostNode.parentNode
+        const parent = Vnode._PortalHostNode.parentNode;
         parent.removeChild(Vnode._PortalHostNode)
     } else {
         if (Vnode._hostNode) {//有可能会出现undefind的情况
-            const parent = Vnode._hostNode.parentNode
+            const parent = Vnode._hostNode.parentNode;
             if (parent)
                 parent.removeChild(Vnode._hostNode)
         }
@@ -34,9 +35,10 @@ function disposeVnode(Vnode) {//主要用于删除Vnode对应的节点
     Vnode._hostNode = null
 }
 
+//删除子节点
 function disposeChildVnode(childVnode) {
-    let children = childVnode
-    if (typeNumber(children) !== 7) children = [children]
+    let children = childVnode;
+    if (typeNumber(children) !== 7) children = [children];
     children.forEach((child) => {
         if (typeof child.type === 'function') {
             if (typeNumber(child._hostNode) <= 1) {
@@ -51,10 +53,10 @@ function disposeChildVnode(childVnode) {
         }
         if (typeNumber(child) !== 4 && typeNumber(child) !== 3 && child._hostNode !== void 666) {
             // clearEvents(child._hostNode, child.props, child);
-            const parent = child._hostNode.parentNode
-            parent.removeChild(child._hostNode)
-            child._hostNode = null
-            child._instance = null
+            const parent = child._hostNode.parentNode;
+            parent.removeChild(child._hostNode);
+            child._hostNode = null;
+            child._instance = null;
             if (child.props.children) {
                 disposeChildVnode(child.props.children)
             }
